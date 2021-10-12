@@ -1,39 +1,55 @@
 from time import sleep
 from selenium import webdriver
+import typer
 
-class Untis():
-    def __init__(self):
-        #Chrome wird nicht mit einer automatisierten Software kontrolliert
-        options = webdriver.ChromeOptions()
-        options.add_experimental_option("useAutomationExtension", False)
-        options.add_experimental_option("excludeSwitches",["enable-automation"])
-        self.browser = webdriver.Chrome(chrome_options=options)
+from secrets import username, password
 
-    def Login(self):
-        url = 'https://thalia.webuntis.com/WebUntis/?school=les#/basic/login'
-        username = "FilajdicLeon20011206"
-        password = "les20011206"
+app = typer.Typer()
+url = 'https://thalia.webuntis.com/WebUntis/?school=les#/basic/login'
 
-        #Browser öffnen
-        self.browser.get(url)
-        self.browser.set_window_size(1920, 1080)
-        self.browser.maximize_window()
+#Chrome wird nicht mit einer automatisierten Software kontrolliert
+options = webdriver.ChromeOptions()
+options.add_experimental_option("useAutomationExtension", False)
+options.add_experimental_option("excludeSwitches",["enable-automation"])
+browser = webdriver.Chrome(chrome_options=options)
 
-        #Anmelden bei WebUntis
-        sleep(2)
-        Benutzer_input = self.browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div/form/div[1]/div/input')
-        Benutzer_input.send_keys(username)
+#Browser öffnen
+browser.get(url)
+browser.set_window_size(1920, 1080)
+browser.maximize_window()
 
-        Passwort_input = self.browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div/form/div[2]/div/input')
-        Passwort_input.send_keys(password)
+#Anmelden bei WebUntis
+sleep(2)
+Benutzer_input = browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div/form/div[1]/div/input')
+Benutzer_input.send_keys(username)
 
-        Login_btn = self.browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div/form/button')
-        Login_btn.click()
-        sleep(3)
+Passwort_input = browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div/form/div[2]/div/input')
+Passwort_input.send_keys(password)
 
-        #Stundenplan öffnen
-        Stundenplan_btn = self.browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[1]/div/a[4]/div/div')
-        Stundenplan_btn.click()
-    
-bot = Untis()
-bot.Login()
+Login_btn = browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div/form/button')
+Login_btn.click()
+sleep(3)
+
+
+@app.command()
+def stundenplan():
+    Stundenplan_btn = browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[1]/div/a[4]/div/div')
+    Stundenplan_btn.click()
+
+@app.command()
+def abwesenheit():
+    Abwesenheit_btn = browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[1]/div/a[5]/div/div')
+    Abwesenheit_btn.click()
+
+@app.command()
+def noten():
+    Noten_btn = browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[1]/div/a[10]/div/div')
+    Noten_btn.click()
+
+@app.command()
+def prüfungen():
+    Prüfung_btn = browser.find_element_by_xpath('/html/body/div/div/div/div[2]/div[1]/div/a[9]/div/div')
+    Prüfung_btn.click()
+
+if __name__ == '__main__':
+    app()
