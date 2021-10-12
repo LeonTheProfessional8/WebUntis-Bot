@@ -1,4 +1,6 @@
 # WebUntis-Bot
+<img align="right" alt="GIF" height="160px" src="https://cdn6.aptoide.com/imgs/b/1/3/b1399c00075a847dd4e54baddfa11b45_icon.png" />
+
 ### Dieser Bot kann von der Kommandozeile WebUntis öffnen und den Benutzer einloggen.
 
 ---
